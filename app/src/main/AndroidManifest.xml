@@ -10,8 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MHikeAppJava">
         <activity
+            android:name=".AddActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Add Hike"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Home M-Hike">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
