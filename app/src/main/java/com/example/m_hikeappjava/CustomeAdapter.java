@@ -23,9 +23,11 @@ import java.util.ArrayList;
 public class CustomeAdapter extends RecyclerView.Adapter<CustomeAdapter.MyViewHolder> {
 
     Context context;
+    Activity activity;
     ArrayList id_hike, name, location, time, parking_available, length_hike, level, description;
 
-    CustomeAdapter(Context context, ArrayList id_hike, ArrayList name, ArrayList location, ArrayList time, ArrayList parking_available, ArrayList length_hike, ArrayList level, ArrayList description) {
+    CustomeAdapter(Activity activity,Context context, ArrayList id_hike, ArrayList name, ArrayList location, ArrayList time, ArrayList parking_available, ArrayList length_hike, ArrayList level, ArrayList description) {
+         this.activity = activity;
          this.context = context;
          this.id_hike = id_hike;
          this.name = name;
@@ -64,8 +66,7 @@ public class CustomeAdapter extends RecyclerView.Adapter<CustomeAdapter.MyViewHo
                  intent.putExtra("length_hike", String.valueOf(length_hike.get(position)));
                  intent.putExtra("level", String.valueOf(level.get(position)));
                  intent.putExtra("description", String.valueOf(description.get(position)));
-                 context.startActivity(intent);
-                 
+                 activity.startActivityForResult(intent, 1);
 
 
                  System.out.println(String.valueOf(length_hike.get(position)));

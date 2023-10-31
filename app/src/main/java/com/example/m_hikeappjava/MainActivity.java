@@ -1,5 +1,6 @@
 package com.example.m_hikeappjava;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,12 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
         storeDb();
 
-        customeAdapter = new CustomeAdapter(this, id_hike, name, location, time, parking_available, length_hike, level, description);
+        customeAdapter = new CustomeAdapter(MainActivity.this, this, id_hike, name, location, time, parking_available, length_hike, level, description);
         recyclerView.setAdapter(customeAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+            recreate();
+        }
+    }
+
     void storeDb() {
         Cursor cursor = myDb.readAllData();
 

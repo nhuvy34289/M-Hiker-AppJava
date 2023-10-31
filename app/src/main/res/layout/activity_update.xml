@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="45dp"
             android:paddingLeft="45dp"
+            android:paddingBottom="10dp"
             android:orientation="vertical" >
 
 
@@ -212,13 +213,22 @@
 
 
             <Button
-                android:layout_width="130dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="0dp"
                 android:id="@+id/btnUpdate"
                 android:text="UPDATE"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="25dp"
+                android:id="@+id/btnDelete"
+                android:text="DELETE"
                 />
         </LinearLayout>
     </ScrollView>

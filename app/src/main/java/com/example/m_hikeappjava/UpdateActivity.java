@@ -18,12 +18,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
+import android.util.Log;
 
 
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.SimpleFormatter;
 public class UpdateActivity extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class UpdateActivity extends AppCompatActivity {
     String[] pitems = {"Yes", "No"};
     String[] litems = {"LOW", "MEDIUM", "HIGH"};
 
-    Button update;
+    Button update, delete_b;
 
     ArrayAdapter<String> pAdapter, levAdapter;
 
@@ -73,6 +75,7 @@ public class UpdateActivity extends AppCompatActivity {
 
 
         update = findViewById(R.id.btnUpdate);
+        delete_b = findViewById(R.id.btnDelete);
         dateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +109,7 @@ public class UpdateActivity extends AppCompatActivity {
                             +enteredLocation+"\nDate of the hike:\t"+enteredDateTime
                             +"\nLength of the hike:\t"+ enteredLen
                             +"\nDefficulty Level:\t"+enteredLevel
+                            +"\nParking Available:\t"+enteredParking
                             +"\nDescription:\t"+enteredDes;
 
                     resDel.setText(result);
@@ -134,6 +138,38 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
 
+        delete_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateActivity.this, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert);
+                View customeLayout = getLayoutInflater().inflate(R.layout.dialog, null);
+                builder.setView(customeLayout);
+                builder.setTitle("Entered Details");
+                builder.setMessage("You want to delete " + name + " ?");
+
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        MyDbHelper mydb = new MyDbHelper(UpdateActivity.this);
+                        mydb.deleteOne(id_hike);
+                        finish();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(UpdateActivity.this,"Cancelled!!!",Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+
 
 
 
@@ -155,10 +191,16 @@ public class UpdateActivity extends AppCompatActivity {
             name_input.setText(name);
             location_input.setText(location);
             dateTime.setText(time);
-            parkingAutoComView.setText(parking_available);
+            parkingAutoComView.setText(parking_available, false);
+            parkingAutoComView.setSelection(Arrays.asList(pitems).indexOf(parking_available));
             lengthH_input.setText(length_hike);
-            levelAutoComView.setText(level);
+            levelAutoComView.setText(level, false);
+            levelAutoComView.setSelection(Arrays.asList(litems).indexOf(level));
             description_input.setText(description);
+
+
+
+
 
         } else {
             Toast.makeText(UpdateActivity.this,"No data!!!",Toast.LENGTH_LONG).show();
