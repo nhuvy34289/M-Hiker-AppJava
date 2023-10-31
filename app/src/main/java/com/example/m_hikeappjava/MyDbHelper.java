@@ -3,13 +3,17 @@ package com.example.m_hikeappjava;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ContentValues;
+import android.widget.Toast;
+import android.database.Cursor;
+
 
 import androidx.annotation.Nullable;
 
 class MyDbHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String DATABASENAME = "Hikedt.d";
+    private static final String DATABASENAME = "Hikedt.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "hike_table";
@@ -33,13 +37,13 @@ class MyDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate (SQLiteDatabase db) {
-         String query = "CREATE TABLE " + TABLE_NAME + "("
-                 + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, "
+         String query = "CREATE TABLE " + TABLE_NAME + " ("
+                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                  + COLUMN_NAME + " TEXT, " +
                  COLUMN_LOCATION + " TEXT, " +
                  COLUMN_TIME + " TEXT, " +
                  COLUMN_PARKING + " TEXT, " +
-                 COLUMN_LEN + " NUMERIC, " +
+                 COLUMN_LEN + " INTEGER, " +
                  COLUMN_LEVEL + " TEXT, " +
                  COLUMN_DES + " TEXT);";
 
@@ -48,6 +52,61 @@ class MyDbHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade (SQLiteDatabase db, int i, int i1) {
-       db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+    }
+
+    Cursor readAllData(){
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+    void addHike (String name, String location, String time, String parking, int lengthH, String level, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_LOCATION, location);
+        cv.put(COLUMN_TIME, time);
+        cv.put(COLUMN_PARKING, parking);
+        cv.put(COLUMN_LEN, lengthH);
+        cv.put(COLUMN_LEVEL, level);
+        cv.put(COLUMN_DES, description);
+
+        long results = db.insert(TABLE_NAME, null, cv);
+
+        if (results == -1) {
+            Toast.makeText(context, "Fail Created!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Insert DB successfully!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    void editHike (String row_id,String name, String location, String time, String parking, int lengthH, String level, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_LOCATION, location);
+        cv.put(COLUMN_TIME, time);
+        cv.put(COLUMN_PARKING, parking);
+        cv.put(COLUMN_LEN, lengthH);
+        cv.put(COLUMN_LEVEL, level);
+        cv.put(COLUMN_DES, description);
+
+        long results = db.update(TABLE_NAME, cv, "id_hike=?", new String[]{row_id});
+
+        if (results == -1) {
+            Toast.makeText(context, "Fail Created!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Updated DB successfully!", Toast.LENGTH_LONG).show();
+        }
+
     }
 }

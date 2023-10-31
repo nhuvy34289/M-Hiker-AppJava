@@ -26,31 +26,33 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.SimpleFormatter;
-public class AddActivity extends AppCompatActivity {
+public class UpdateActivity extends AppCompatActivity {
     AutoCompleteTextView parkingAutoComView, levelAutoComView;
     TextInputLayout dateLayout, parkingLayout, levelLayout, nameLayout, locationLayout, lengthLayout;
-    EditText dateTime, name, location, lengthH, description;
+    EditText dateTime, name_input, location_input, lengthH_input, description_input;
 
     String[] pitems = {"Yes", "No"};
     String[] litems = {"LOW", "MEDIUM", "HIGH"};
 
-    Button create;
+    Button update;
 
     ArrayAdapter<String> pAdapter, levAdapter;
+
+    String id_hike, name, location, time, parking_available, length_hike, level, description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_update);
 
-        parkingAutoComView = findViewById(R.id.parking);
-        levelAutoComView = findViewById(R.id.level);
-        dateLayout = findViewById(R.id.wrapTime);
-        parkingLayout = findViewById(R.id.wrapParking);
-        levelLayout = findViewById(R.id.wrapLevel);
-        nameLayout = findViewById(R.id.wrapName);
-        locationLayout = findViewById(R.id.wrapLocation);
-        lengthLayout = findViewById(R.id.wrapLength);
+        parkingAutoComView = findViewById(R.id.parking1);
+        levelAutoComView = findViewById(R.id.level1);
+        dateLayout = findViewById(R.id.wrapTime1);
+        parkingLayout = findViewById(R.id.wrapParking1);
+        levelLayout = findViewById(R.id.wrapLevel1);
+        nameLayout = findViewById(R.id.wrapName1);
+        locationLayout = findViewById(R.id.wrapLocation1);
+        lengthLayout = findViewById(R.id.wrapLength1);
 
         pAdapter = new ArrayAdapter<String>(this, R.layout.list_items, pitems);
 
@@ -59,13 +61,18 @@ public class AddActivity extends AppCompatActivity {
         parkingAutoComView.setAdapter(pAdapter);
         levelAutoComView.setAdapter(levAdapter);
 
-        dateTime = findViewById(R.id.dateH);
-        name = findViewById(R.id.name);
-        location = findViewById(R.id.location);
-        lengthH = findViewById(R.id.numLen);
-        description = findViewById(R.id.description);
+        dateTime = findViewById(R.id.dateH1);
+        name_input = findViewById(R.id.name1);
+        location_input = findViewById(R.id.location1);
+        lengthH_input = findViewById(R.id.numLen1);
+        description_input = findViewById(R.id.description1);
 
-        create = findViewById(R.id.btnCreate);
+        getIntentData();
+
+
+
+
+        update = findViewById(R.id.btnUpdate);
         dateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,25 +80,25 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        create.setOnClickListener(new View.OnClickListener() {
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!validateTime() | !validateParking() | !validateLevel() | !validateName() | !validateLocation() | !validateLength()) {
-                    Toast.makeText(AddActivity.this, "Creeted fail!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UpdateActivity.this, "Creeted fail!", Toast.LENGTH_LONG).show();
                 } else {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateActivity.this, androidx.appcompat.R.style.Base_Theme_AppCompat_Dialog_Alert);
                     View customeLayout = getLayoutInflater().inflate(R.layout.dialog, null);
                     builder.setView(customeLayout);
                     builder.setTitle("Entered Details");
 
-                    String enteredName = name.getText().toString();
-                    String enteredLocation = location.getText().toString();
+                    String enteredName = name_input.getText().toString();
+                    String enteredLocation = location_input.getText().toString();
                     String enteredDateTime = dateTime.getText().toString();
                     String enteredParking = parkingAutoComView.getText().toString();
-                    String enteredLen = lengthH.getText().toString();
+                    String enteredLen = lengthH_input.getText().toString();
                     String enteredLevel = levelAutoComView.getText().toString();
-                    String enteredDes = description.getText().toString();
+                    String enteredDes = description_input.getText().toString();
                     TextView resDel = customeLayout.findViewById(R.id.mhikeVals_details);
 
 
@@ -107,23 +114,16 @@ public class AddActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
+                            MyDbHelper mydb = new MyDbHelper(UpdateActivity.this);
 
-                            MyDbHelper mydb = new MyDbHelper(AddActivity.this);
-                            mydb.addHike(enteredName, enteredLocation, enteredDateTime, enteredParking, Integer.valueOf(enteredLen), enteredLevel, enteredDes);
+                            mydb.editHike(id_hike, enteredName, enteredLocation, enteredDateTime, enteredParking, Integer.valueOf(enteredLen), enteredLevel, enteredDes);
 
-                            name.getText().clear();
-                            location.getText().clear();
-                            dateTime.getText().clear();
-                            parkingAutoComView.getText().clear();
-                            lengthH.getText().clear();
-                            levelAutoComView.getText().clear();
-                            description.getText().clear();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(AddActivity.this,"Cancelled!!!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(UpdateActivity.this,"Cancelled!!!",Toast.LENGTH_LONG).show();
                         }
                     });
                     AlertDialog dialog = builder.create();
@@ -137,11 +137,33 @@ public class AddActivity extends AppCompatActivity {
 
 
 
+    }
 
+    void getIntentData() {
+        if(getIntent().hasExtra("id_hike") && getIntent().hasExtra("name") && getIntent().hasExtra("location") && getIntent().hasExtra("time")
+          && getIntent().hasExtra("parking_available") && getIntent().hasExtra("length_hike") && getIntent().hasExtra("level") && getIntent().hasExtra("description")) {
+            id_hike = getIntent().getStringExtra("id_hike");
+            name = getIntent().getStringExtra("name");
+            location = getIntent().getStringExtra("location");
+            time = getIntent().getStringExtra("time");
+            parking_available = getIntent().getStringExtra("parking_available");
+            length_hike = getIntent().getStringExtra("length_hike");
+            level = getIntent().getStringExtra("level");
+            description = getIntent().getStringExtra("description");
 
+            //set val edit
+            name_input.setText(name);
+            location_input.setText(location);
+            dateTime.setText(time);
+            parkingAutoComView.setText(parking_available);
+            lengthH_input.setText(length_hike);
+            levelAutoComView.setText(level);
+            description_input.setText(description);
 
+        } else {
+            Toast.makeText(UpdateActivity.this,"No data!!!",Toast.LENGTH_LONG).show();
 
-
+        }
     }
     private void showDialogDateTime(EditText dateTime){
         Calendar calendar = Calendar.getInstance();
@@ -172,34 +194,34 @@ public class AddActivity extends AppCompatActivity {
         }
     }
     private boolean validateName () {
-        if (name.getEditableText().toString().isEmpty()) {
-            name.setError("");
+        if (name_input.getEditableText().toString().isEmpty()) {
+            name_input.setError("");
             nameLayout.setHelperText("Please enter the name !");
             return false;
         } else {
-            name.setError(null);
+            name_input.setError(null);
             nameLayout.setHelperText("");
             return true;
         }
     }
     private boolean validateLocation () {
-        if (location.getEditableText().toString().isEmpty()) {
-            location.setError("");
+        if (location_input.getEditableText().toString().isEmpty()) {
+            location_input.setError("");
             locationLayout.setHelperText("Please enter the date !");
             return false;
         } else {
-            location.setError(null);
+            location_input.setError(null);
             locationLayout.setHelperText("");
             return true;
         }
     }
     private boolean validateLength () {
-        if (lengthH.getEditableText().toString().isEmpty()) {
-            lengthH.setError("");
+        if (lengthH_input.getEditableText().toString().isEmpty()) {
+            lengthH_input.setError("");
             lengthLayout.setHelperText("Please enter the date !");
             return false;
         } else {
-            lengthH.setError(null);
+            lengthH_input.setError(null);
             lengthLayout.setHelperText("");
             return true;
         }

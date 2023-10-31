@@ -15,6 +15,11 @@
             android:label="Add Hike"
             android:exported="false" />
         <activity
+            android:name=".UpdateActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Edit Hike"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="Home M-Hike">
