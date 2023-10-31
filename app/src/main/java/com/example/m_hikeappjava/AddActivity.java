@@ -99,6 +99,7 @@ public class AddActivity extends AppCompatActivity {
                             +enteredLocation+"\nDate of the hike:\t"+enteredDateTime
                             +"\nLength of the hike:\t"+ enteredLen
                             +"\nDefficulty Level:\t"+enteredLevel
+                            +"\nParking Available:\t"+enteredParking
                             +"\nDescription:\t"+enteredDes;
 
                     resDel.setText(result);
