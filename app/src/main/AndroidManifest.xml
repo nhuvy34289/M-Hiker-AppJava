@@ -20,6 +20,19 @@
             android:label="Edit Hike"
             android:exported="false" />
         <activity
+            android:name=".ObservationActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="List Observations"
+            android:exported="false" />
+        <activity
+            android:name=".AddActivityObser"
+            android:label="Add Observation"
+            android:exported="true" />
+        <activity
+            android:name=".UpdateActivityObser"
+            android:label="Edit Observation"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="Home M-Hike">

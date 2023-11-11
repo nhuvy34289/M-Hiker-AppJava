@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddActivityObser">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="45dp"
+            android:paddingLeft="45dp"
+            android:paddingBottom="15dp"
+            android:orientation="vertical" >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name of the observation"
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="6dp"
+                android:textColor="@color/black"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:helperText="Require*"
+                android:id="@+id/wrapName_obser"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/name_obser"
+                    android:hint="Type the name here..."
+                    android:paddingLeft="14dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingRight="14dp"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of the observation"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="6dp"
+                android:textColor="@color/black"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/wrapTime_obser"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/red"
+                app:helperText="Require*"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/dateH_obser"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:paddingLeft="14dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingRight="14dp"
+                    android:inputType="none"
+                    android:hint="YYYY-MM-DD" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="6dp"
+                android:textColor="@color/black"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/description_obser"
+                    android:paddingLeft="14dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingRight="14dp"
+                    android:hint="Type your note here ..."
+                    android:gravity="top"
+                    android:overScrollMode="always"
+                    android:scrollHorizontally="false"
+                    android:scrollbars="vertical"
+                    android:scrollbarStyle="insideInset"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/btnCreate_obser"
+                android:text="ADD"
+                />
+        </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

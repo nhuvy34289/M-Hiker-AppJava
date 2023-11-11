@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,12 +54,22 @@ public class CustomeAdapter extends RecyclerView.Adapter<CustomeAdapter.MyViewHo
          holder.hike_id_txt.setText(String.valueOf(id_hike.get(position)));
          holder.name_txt.setText(String.valueOf(name.get(position)));
          holder.time_txt.setText(String.valueOf(time.get(position)));
+         holder.button_more.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent intent = new Intent(context, ObservationActivity.class);
+
+                 intent.putExtra("id_hike", String.valueOf(id_hike.get(position)));
+
+                 activity.startActivityForResult(intent, 1);
+             }
+         });
          holder.mainLayout.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                Intent intent = new Intent(context, UpdateActivity.class);
 
-               intent.putExtra("id_hike", String.valueOf(id_hike.get(position)));
+                 intent.putExtra("id_hike", String.valueOf(id_hike.get(position)));
                  intent.putExtra("name", String.valueOf(name.get(position)));
                  intent.putExtra("location", String.valueOf(location.get(position)));
                  intent.putExtra("time", String.valueOf(time.get(position)));
@@ -84,6 +95,7 @@ public class CustomeAdapter extends RecyclerView.Adapter<CustomeAdapter.MyViewHo
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView hike_id_txt, name_txt, time_txt;
+        Button button_more;
         LinearLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
 
@@ -91,8 +103,8 @@ public class CustomeAdapter extends RecyclerView.Adapter<CustomeAdapter.MyViewHo
             hike_id_txt = itemView.findViewById(R.id.hike_id_txt);
             name_txt = itemView.findViewById(R.id.name_txt);
             time_txt = itemView.findViewById(R.id.time_txt);
+            button_more = itemView.findViewById(R.id.button_more);
             mainLayout = itemView.findViewById(R.id.mainLayoutRow);
-
 
         }
     }
